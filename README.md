@@ -279,3 +279,5 @@ S9Zs/8/uEGGTVVtLggFTizCsMtwOJnRhjaQ2BMUQhcY
 - [Telegram API](https://core.telegram.org/api)
 - [Как обращаться с BotFather](https://core.telegram.org/bots/features#botfather)
 - [Методы Telegram API](https://core.telegram.org/methods)
+
+💡 [Нажми тут](https://forms.yandex.ru/cloud/6470524b69387212f7364a5e/), **чтобы поделиться с нами обратной связью на этот проект**. Это анонимно и поможет команде Педаго сделать твоё обучение лучше.
