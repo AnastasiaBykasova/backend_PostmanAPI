@@ -1,4 +1,6 @@
-# Обращение к публичным HTTP API
+# Accessing public HTTP APIs
+
+💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
 
 ## Contents
 
@@ -9,96 +11,98 @@
 
 ### Introduction
 
-В данном проекте тебе предстоит сформировать ряд коллекций запросов в Postman'е для получения данных как с публичных API без авторизации, так и с авторизацией. Ты познакомишься с концепциями протокола HTTP, его методами и форматами данных, которыми он оперирует, а также рассмотришь средства разработчика в Google Chrome.
+In this project, you will form a number of request collections in Postman to retrieve data from public APIs without and with authorization. You'll learn the concepts of the HTTP protocol, its methods, and the data formats it operates with. You'll also look at the developer tools in Google Chrome.
 
 
 ## Chapter II
 
-### Что такое API и с чем его едят?
+### What is API and what does it do?
 
-API (Application programming interface) — это контракт, который предоставляет программа. «Ко мне можно обращаться так и так, я обязуюсь делать то и это».
+The API (Application Programming Interface) is the contract that the program provides. "You can address me this way and that way, I undertake to do this and that."
 
-Другими словами API - это набор функций, который предоставляет программа, причём каждая функция описывает формат того, какие данные поступают на вход и в каком формате они будут получены. Подробнее о спецификациях API поговорим позже. 
+In other words, an API is a set of functions that a program provides, with each function describing the format of the input data and the format in which it will be received. We'll talk more about API specifications later.
 
-С помощью API мы можем получить доступ к данным системы, разработанной какой-либо компанией или разработчиком.
+Using the API we can access data from a system developed by a company or a developer.
 
-API бывают двух типов:
-* Публичные - это интерфейсы, которые доступны любому человеку и получить доступ к его использованию может любой.
-* Закрытые (Частные) - это интерфейсы, доступные только внутренним разработчикам или разработчикам из других команд/компаний на основе предоставления прав доступа к интерфейсу. 
-
+There are two types of APIs:
+* Public — interfaces that are open to anyone and can be accessed by anyone to use them.
+* Private — interfaces that are only accessible to internal developers or to developers from other teams/companies based on the granting of access rights to the interface. 
+ 
 ### HTTP 1.1
 
-Ознакомиться с официальной спецификацией данной версии протокола можно [тут](https://httpwg.org/specs/rfc9112.html).
+Read the official specification of this version of the protocol [here](https://httpwg.org/specs/rfc9112.html).
 
-HTTP (HyperText Transfer Protocol) — протокол прикладного уровня, реализованный поверх протокола TCP/IP (до версии 3.0, черновики которой работают уже поверх UDP). HTTP определяет, как взаимодействуют между собой клиент и сервер, как запрашивается и передаётся контент по интернету.
+HTTP (HyperText Transfer Protocol) is an application layer protocol implemented on top of TCP/IP (prior to version 3.0, drafts of which already work on top of UDP). HTTP defines how the client and server interact and how content is requested and transferred over the Internet.
 
-На данный момент именно благодаря протоколу HTTP (по большей части) обеспечивается работа Всемирной паутины.
+Currently, the HTTP protocol is (for the most part) what makes the World Wide Web work.
 
-API многих программных продуктов также подразумевает использование HTTP для передачи данных — сами данные при этом могут иметь любой формат, например, XML или JSON.
+The API of many software products also implies the use of HTTP for data transfer. The data itself can be in any format, such as XML or JSON.
 
-Как правило, передача данных по протоколу HTTP осуществляется через TCP/IP-соединения. Серверное программное обеспечение при этом обычно использует TCP-порт 80 (и, если порт не указан явно, то обычно клиентское программное обеспечение по умолчанию использует именно 80-й порт для открываемых HTTP-соединений и 443 для HTTPS), хотя может использовать и любой другой.
+Typically, data transfers using the HTTP protocol are made over TCP/IP connections. The server software usually uses TCP port 80 (and if the port is not explicitly specified, the client software usually uses port 80 for HTTP connections and 443 for HTTPS by default), but can use any other port.
 
-Стартовая (начальная) строка запроса для HTTP 1.1 составляется по следующей схеме:
+The start (initial) request line for HTTP 1.1 is formed according to the following scheme:
 
-> Метод URI HTTP/Версия
+> URI method HTTP/Version
 
-Например (такая стартовая строка может указывать на то, что запрашивается главная страница сайта):
+For example (such a start line may indicate that the main page of the site is requested):
 
 > GET / HTTP/1.1
 
-**Метод** представляет собой последовательность из любых символов, кроме управляющих и разделителей, и определяет операцию, которую нужно осуществить с указанным ресурсом. Спецификация HTTP 1.1 не ограничивает количество разных методов, которые могут быть использованы, однако в целях соответствия общим стандартам и сохранения совместимости с максимально широким спектром программного обеспечения, как правило, используются лишь некоторые, наиболее стандартные методы, смысл которых однозначно раскрыт в спецификации протокола.
+**Method** is a sequence of any characters other than control and delimiters and defines the operation to be performed on the specified resource. HTTP 1.1 specification does not limit the number of different methods that can be used, but in order to meet common standards and maintain compatibility with the widest possible range of software, it usually uses only some of the most standard methods, whose meaning is explicitly disclosed in the protocol specification.
 
-**URI** (Uniform Resource Identifier, унифицированный идентификатор ресурса) — путь до конкретного ресурса (например, документа), над которым необходимо осуществить операцию (например, в случае использования метода GET подразумевается получение ресурса). 
+**URI** (Uniform Resource Identifier) is the path to the specific resource (for example, a document) on which you want to perform an operation (for example, when using the GET method, it means getting the resource). 
 
-**Версия** определяет, в соответствии с какой версией стандарта HTTP составлен запрос. Указывается как два числа, разделённых точкой (например 1.1).
+**Version** specifies which HTTP standard version is used for the request. It is specified as two numbers separated by a dot (e.g. 1.1).
 
-Пример:
+An example:
 > GET / HTTP/1.1
 Host: example.com
 
-### Разница между версиями протокола HTTP
+### The difference between the HTTP protocol versions
 
 ### HTTP 1.1
-Первая стандартизованная версия протокола HTTP — HTTP/1.1 была опубликована в начале 1997 года, спустя несколько месяцев после появления HTTP/1.0. HTTP/1.1 на момент публикации поддерживал 7 методов: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE. Однако позднее, в 2010 году, в стандарт был добавлен метод PATCH, а в 2014 — CONNECT.
+The first standardized version of the HTTP protocol, HTTP/1.1, was released in early 1997, a few months after the release of HTTP/1.0. At the time of its release, HTTP/1.1 supported 7 methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE. However, later, in 2010, the PATCH method was added to the standard, and then in 2014 the CONNECT method.
 
-Протокол HTTP/1.1 оказался очень удачным и стабильно прослужил в изначальной редакции более 15 лет. В процессе использования появилось только расширение протокола HTTPS, обеспечивающее шифрованную передачу данных между браузером и сервером используя механизмы SSL/TLS.
+HTTP/1.1 protocol turned out to be very successful and has served more than 15 years in its original version. During its use, only the HTTPS protocol extension appeared to provide encrypted data transfer between the browser and the server using the mechanisms of SSL/TLS.
 
 ### HTTP/2
-HTTP/2 нацелен на более эффективное использование сетевых ресурсов и уменьшение видимых задержек. Это привело к созданию нового бинарного слоя формата данных, не имеющего обратной совместимости с HTTP/1.x серверами и клиентами.
+HTTP/2 aims to use network resources more efficiently and reduce apparent latency. This has led to a new binary data format layer that is not backward compatible with HTTP/1.x servers and clients.
 
-Первый черновик HTTP/2 был построен на основе спецификации SPDY, а спецификация была опубликована в 2015 году. Важными аспектами стали параллелизация, приоритизация и управление потоками передачи данных:
+The first draft of HTTP/2 was based on the SPDY specification, which was released in 2015. Important aspects were parallelization, prioritization, and stream control:
 
-* Под потоком понимается двунаправленная передача информации внутри установленного TCP соединения
-* Передача осуществляется посредством одного TCP соединения с любым количеством параллельных потоков
-* Такой протокол называется мультплексированным. Несколько параллельных запросов могут использовать одно соединение
-* Это обеспечивает возможность для разной приоритезации передаваемых данных
-* Также, это позволяет серверу самостоятельно инициировать передачу данных
-* Вместо текстовых данных, протокол использует бинарный формат передачи данных, что позволяет увеличить производительность и безопасность
-* Заголовки запросов и ответов сжимаются принудительно
+* A stream is a bidirectional transfer of data within an established TCP connection.
+* The transfer is made over a single TCP connection with any number of parallel streams.
+* Such a protocol is called a multiplexed protocol. Multiple parallel requests can use the same connection.
+* This provides an opportunity for different prioritization of transferred data.
+* It also allows the server to initiate data transfer independently.
+* Instead of textual data, the protocol uses a binary data format, which increases performance and security.
+* The request and response headers are automatically compressed.
 
 ### HTTP/3
 
-С появлением смартфонов и множества других портативных устройств с беспроводной связью, общее количество веб трафика серьезно увеличилось. HTTP/2, работающий через TCP со своей проблемой head-of-line blocking, мог создавать задержки в запросах и ответах. Так как TCP обеспечивает строгую очерёдность передачи пакетов, то проблема с одним медленным пакетом может замедлять или вовсе ломать поток целиком. Также HTTP/2 не имел строгого требования к шифрованию данных, и по прежнему оставались проблемы с безопасностью при перехвате заголовков запросов и ответов.
+With the advent of smartphones and many other portable devices with wireless connectivity, the overall amount of web traffic has increased dramatically. HTTP/2 running over TCP, with its head-of-line blocking problem, could cause delays in requests and responses. Because TCP provides strict packet sequencing, a problem with one slow packet could slow or even stop the entire stream. Also, HTTP/2 did not have a strict requirement for data encryption, and there were still security issues with intercepting request and response headers.
 
-HTTP/3 проектируется для решения этих проблем, и сейчас проходит тестирование с опубликованной спецификацией. Новый протокол должен решать текущие проблемы скорости, надёжности и безопасности для широкого сектора устройств.
+HTTP/3 is designed to address these issues, and is now being tested with a published specification. The new protocol should address current speed, reliability, and security issues for a wide range of devices.
 
-Вместо TCP, HTTP/3 строится на основе нового протокола QUIC, разрабатываемого в Google с 2012 года. QUIC работает через протокол UDP (User Datagram Protocol).
-QUIC сам обеспечивает мультплексирование, и потеря одного пакета повлияет только на имеющий к этому пакету поток, другие потоки в рамках соединения продолжат свою работу. Заголовки запросов и ответов сжимаются QPACK в HTTP/2 вместо HPACK в HTTP/2. Для шифрования используется TLS 1.3, эффективно использующийся в HTTPS. Последние версии браузеров Chrome, Firefox, Edge, Opera и некоторые мобильные браузеры уже поддерживают работу по HTTP/3, но для работы должна быть и поддержка со стороны сервера.
+Instead of TCP, HTTP/3 is based on a new protocol called QUIC, which has been under development at Google since 2012. QUIC works over UDP (User Datagram Protocol).
+QUIC itself provides multiplexing, and the loss of a packet will only affect the stream that has a connection to that packet, the other streams within the connection will continue to work. Request and response headers are compressed by QPACK instead of HPACK in HTTP/2.
+TLS 1.3 is used for encryption, which is effectively used in HTTPS.
+The latest versions of Chrome, Firefox, Edge, Opera, and some mobile browsers already support HTTP/3, but it requires server support to work.
 
-По статистике от w3techs.com на Июль 2021 года 45.7% вебсайтов доступны по HTTP/2 и только 20% по HTTP/3.
+According to statistics from w3techs.com, as of July 2021, 45.7% of websites are accessible via HTTP/2 and only 20% via HTTP/3.
 
-### Как прочитать ответ?
+### How to read the response?
 
-Строка ответа имеет следующий вид:
-> HTTP/Версия Код состояния Пояснение
+The response looks like this:
+> HTTP/Version Status-Code Reason-Phrase
 
-**Версия** протокола здесь задаётся так же, как в запросе.
+**Version** of the protocol is set in the same way as in the request.
 
-**Код состояния** (Status Code) — три цифры (первая из которых указывает на класс состояния), которые определяют результат совершения запроса. Например, в случае, если был использован метод GET, и сервер предоставляет ресурс с указанным идентификатором, то такое состояние задаётся с помощью кода 200. Если сервер сообщает о том, что такого ресурса не существует — 404. Если сервер сообщает о том, что не может предоставить доступ к данному ресурсу по причине отсутствия необходимых привилегий у клиента, то используется код 403. Спецификация HTTP 1.1 определяет 40 различных кодов HTTP, а также допускается расширение протокола и использование дополнительных кодов состояний.
+**Status code** is a three-digit number (the first of which indicates the status class) that defines the result of the request. For example, if the GET method was used and the server provides a resource with the specified identifier, then such a status is specified with code 200. If the server reports that such a resource does not exist — 404. If the server reports that it cannot provide access to the resource because the client does not have the necessary permissions, code 403 is used. The HTTP 1.1 specification defines 40 different HTTP codes, and also allows for protocol extensions and the use of additional status codes.
 
-**Пояснение к коду состояния** (Reason Phrase) — текстовое (но не включающее символы CR и LF) пояснение к коду ответа, предназначено для упрощения чтения ответа человеком. Пояснение может не учитываться клиентским программным обеспечением, а также может отличаться от стандартного в некоторых реализациях серверного ПО.
+The **Reason Phrase** is a textual (but not CR and LF characters) explanation of the response code, intended to make it easier for humans to read the response. The explanation may be ignored by client software and may differ from the standard in some server software implementations.
 
-Пример ответа:
+The response example:
 > HTTP/1.1 200 OK
 Server: nginx/1.2.1
 Date: Sat, 08 Mar 2014 22:53:46 GMT
@@ -156,125 +160,111 @@ Accept-Ranges: bytes
 </html>
 ```
 
-С заголовками тебе предстоит разобраться самому :)
+You'll have to work out the headings by yourself :)
 
 
-### Основы авторизации в WEB
+### Basics of WEB Authorization
 
-HTTP authentication - Этот протокол, описанный в стандартах HTTP 1.0/1.1, существует очень давно и до сих пор активно применяется в корпоративной среде. Применительно к веб-сайтам работает следующим образом:
+HTTP Authentication — this protocol, described in the HTTP 1.0/1.1 standards, has been around for a very long time and is still actively used in the enterprise environment. When applied to websites, it works like this:
 
-- Сервер, при обращении неавторизованного клиента к защищенному ресурсу, отсылает HTTP статус «401 Unauthorized» и добавляет заголовок «WWW-Authenticate» с указанием схемы и параметров аутентификации.
-- Браузер, при получении такого ответа, автоматически показывает диалог ввода username и password. Пользователь вводит детали своей учетной записи.
-- Во всех последующих запросах к этому веб-сайту браузер автоматически добавляет HTTP заголовок «Authorization», в котором передаются данные пользователя для аутентификации сервером.
- - Сервер аутентифицирует пользователя по данным из этого заголовка. Решение о предоставлении доступа (авторизация) производится отдельно на основании роли пользователя, ACL или других данных учетной записи.
+- When an unauthorized client accesses a protected resource, the server sends an HTTP status of "401 Unauthorized" and adds the "WWW-Authenticate" header specifying the authentication scheme and parameters.
+- When the browser receives this response, it automatically displays the Username and Password dialog box. The user enters their account information.
+- For all subsequent requests to this Web site, the browser automatically adds an HTTP Authorization header that passes the user's credentials to the server for authentication.
+- The server authenticates the user based on the information in this header. The decision to grant access (authorization) is made separately based on the user's role, ACL, or other account information.
 
-Мы с тобой рассмотрим наиболее популярные методы аутентификации:
-* Token-Based Authentication
-* JWT Token
-* Oauth 2.0
+Let's take a look at the most common authentication methods:
+* Token-based authentication;
+* JWT Token;
+* Oauth 2.0.
   
 **Token-Based Authentication**
 
-Также называют Bearer Authentication.
+Also called Bearer Authentication.
 
-Token-Based Authentication использует подписанный сервером токен (bearer token), который клиент передает на сервер в заголовке Authorization HTTP с ключевым словом Bearer или в теле запроса. Например:
+Token-Based Authentication uses a signed bearer token, which the client sends to the server in the Authorization HTTP header with the Bearer keyword or in the body of the request. For example:
 
 >Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjI4Y
 
-При получении токена сервер должен проверять его на валидность — что пользователь существует, время использования не прошло и т.д. Token-Based Authentication может использоваться как часть OAuth 2.0 или OpenID Connect протоколов, так и сервер сам может сформировать токен.
+Upon receiving a token, the server must verify its validity — that the user exists, that the time of use has not expired, and so on. Token-based authentication can be used as part of the OAuth 2.0 or OpenID Connect protocols, or the server can generate the token itself.
 
-При любом способе аутентификации для безопасного использования должен использоваться протокол, который обеспечивает шифрование данных, HTTP заголовков и URL, например HTTPS.
+Any authentication method must use a protocol that provides data encryption, HTTP headers, and URLs such as HTTPS to be used securely.
  
-**JSON Web Token (JWT)** — содержит три блока, разделенных точками: заголовок, набор полей (claims) и подпись. Первые два блока представлены в JSON-формате и дополнительно закодированы в формат base64. Набор полей содержит произвольные пары имя/значения, притом стандарт JWT определяет несколько зарезервированных имен (iss, aud, exp и другие). Подпись может генерироваться как при помощи симметричных алгоритмов шифрования, так и асимметричных. Кроме того, существует отдельный стандарт, отписывающий формат зашифрованного JWT-токена.
+The **JSON Web Token (JWT)** consists of three parts: Header, Payload, and Signature. The first two blocks are in JSON format and additionally base64-encoded, the payload contains arbitrary name/value pairs, and the JWT standard defines several reserved names (iss, aud, exp, and others). The signature can be created using both symmetric and asymmetric encryption algorithms. There is also a separate standard for the format of an encrypted JWT token.
 
->Пример подписанного JWT токена (после декодирования 1 и 2 блоков).
+>An example of a signed JWT token (after decoding blocks 1 and 2).
 { «alg»: «HS256», «typ»: «JWT» }.
 { «iss»: «auth.myservice.com», «aud»: «myservice.com», «exp»: «1435937883», «userName»: «John Smith», «userRole»: «Admin» }.
 S9Zs/8/uEGGTVVtLggFTizCsMtwOJnRhjaQ2BMUQhcY
 
 **Oauth 2.0**
 
-С помощью OAuth 2.0 пользователь разрешает определенному сайту получить свои закрытые данные из соцсетей, но без передачи сайту своих логинов / паролей. Например, когда вы регистрируетесь на сайте через VK, то как раз и предоставляете этому сайту разрешение получить из VK ваше имя, e-mail адрес и другие закрытые данные.
+OAuth 2.0 allows users to let a particular site retrieve their private data from social networks, but without giving the site their usernames/passwords. For example, when you register on the site via VK, you just give the site permission to get your name, e-mail address and other private data from VK.
 
-### Классические методы HTTP:
-- GET - Клиенты используют GET для доступа к ресурсам, расположенным на сервере по указанному адресу;
-- POST - Используется для отправки данных на сервер;
-- PUT - Для создания или обновления существующего ресурса целиком;
-- PATCH - Для обновления части существующего ресурса;
-- DELETE - Для удаления ресурса.
+### Standard HTTP methods:
+- GET — Clients use GET to access resources located on the server at the specified address;
+- POST — Used to send data to the server;
+- PUT — Used to create or update an existing resource entirely;
+- PUT — Used to update part of an existing resource;
+- DELETE — Used to delete a resource.
 
 
-### Инструмент Postman для тестирования API
+### Postman tool for API testing
 
 ![postman](misc/images/postman.jpg)
 
-Программа **Postman** предназначена для тестирования работы API, а также для отправки запросов POST и GET и др. В отличие от похожей утилиты curl, она имеет графический интерфейс, поэтому легко осваивается даже новичками. 
+The **Postman** program is intended for API testing, sending POST and GET requests, etc. Unlike the similar utility curl, it has a graphical interface, making it easy to learn even for beginners. 
 
-Скачать ее можно с [официального сайта](https://www.postman.com/) – есть дистрибутивы для Windows, macOS и Linux. На последней платформе есть возможность установки утилиты напрямую из Центра приложений. В любом случае использование начинается с регистрации бесплатного аккаунта.
+You can download it from the [official website](https://www.postman.com/). Distributions are available for Windows, MacOS and Linux. On the latter platform, it is possible to install the utility directly from the Application Center. In any case, you start using it by signing up for a free account.
 
-Тестирование интерфейса API проводится путем анализа точности выходных данных в зависимости от подаваемых при входном запросе. Этим и занимается Postman: он составляет и отправляет их на указанные URL, получает обратно и сохраняет в базе данных. При желании возможно сохранение типовых запросов в коллекции (для быстрого доступа) и создание для них разного окружения.
-
+Testing the API is done by analyzing the accuracy of the output data depending on the input request. This is what Postman does: it compiles and sends them to the specified URLs, receives them back, and stores them in the database. If you like, you can store typical requests in collections (for quick access) and create different environments for them.
 
 ## Chapter III
 
-Ну что, давай знакомиться с АПИ. Результатом каждого направления является коллекция Postman. 
+So, let's meet the API. The result of each direction is the Postman collection. 
 
-### Part1. News API
+### Part 1. News API
 
-Для начала тебе необходимо перейти [по cсылке](https://newsapi.org/) и получить **API KEY** (Ключ интерфейса прикладного программирования - это уникальный идентификатор, используемый для аутентификации пользователя, разработчика или вызывающей программы)
+First, you need to go to [here](https://newsapi.org/) and get **API KEY** (The Application Programming Interface key is a unique identifier used to authenticate the user, developer, or caller of a program).
 
-Не забудь, что **API KEY** нужно прикладывать в качестве bearer token в заголовке авторизации!
+Don't forget that **API KEY** must be used as a bearer token in the authorization header!
 
+1. You need to get all the news on Linux.
+2. Get all the news about "development" in Russian for the last 15 days.
+3. Get all the news about Linux in Russian on page 3, which should have 10 news on one page.
+4. Get all the headlines for "science" in Russian. 
 
-1. Необходимо получить все новости по теме linux
-2. Получить все новости по теме "Разработка" на русском языке за последние 15 дней.
-3. Получить все новости по теме linux на русском языке на 3 странице, на каждой из которых по 10 новостей.
-4. Получить все заголовки новостей для страны Россия по теме "наука" (science)
+The result of this task is a postman collection.
 
-Результатом выполнения данного задания является постман коллекция
+### Part 2. Developer Tools
+And now we're going to visit hh.ru to get the data from their API (not their website). To do this, you need to open the developer console, select the "Network" tab, specify a filter to Fetch/XHR, and perform random actions on the site. You will need to get the contacts of some vacancy (look for the "Show contacts" button and click!). As a result of clicking on various buttons and links you will see requests sent to the hh.ru API in the network section (the uri request does not necessarily have to contain the "api" tag). Do the same request in Postman and make sure that the data you receive is "somewhere" on the site. So we are looking at how web applications actually work and how they communicate. (And there is no open, publicly available specification for this API.)
 
-### Part2. Инструменты разработчика
-А сейчас мы с тобой полезем на сайт hh.ru для того, чтобы достать данные с их API (не с сайта). Для этого тебе необходимо открыть консоль разработчика, выбрать вкладку «network» (Сеть), указать фильтр на Fetch/XHR, и выполнять рандомные действия на сайте. Необходимо получить контакты какой-либо вакансии (ищи кнопку «показать контакты» и жми!). В результате прокликивания разных кнопок и ссылок, в разделе network ты увидишь запросы, которые посылаются на API hh.ru (В uri запроса не обязательно должен присутствовать тег «api»). Выполни этот же запрос в postman и убедись, что полученные тобой данные «где-то» присутствуют на сайте. Таким образом мы с тобой посмотрим на то, как в действительности работают web-приложения, и на то, как они коммуницируют. (Причём открытой, доступной для всех спецификации этого API попросту нет).
+The resulting request must start with https://hh.ru/vacancy/...
 
-Полученный в результате запрос должен начинаться с https://hh.ru/vacancy/...
+### Part 3. Telegram bot
+Today's well-known business automation tool is a ~~good site~~ Telegram Bot! Building one is now so easy, especially with the official documentation.
 
-### Part3. Телеграм бот
-Известное нынче средство автоматизации бизнеса - ~~хороший сайт~~ телеграм бот! Сделать его сейчас проще простого, особенно благодаря официальной документации.
+Writing your own bots is possible thanks to the open Telegram API. Just because it is open, there are dozens of libraries that implement available bot functions in their own way.
 
-Написание собственных ботов доступно благодаря открытому Telegram API. Именно потому, что оно открытое, существуют десятки библиотек, которые по-своему реализуют доступные функции бота.
+We're not going to write our own bot, but... Let's pull some strings provided by the official API. In this assignment, you'll practice making requests to the API via Postman, and you'll see the results right away! And you'll also see how easy it is to implement your own library to work with Telegram bots.
 
-Мы своего бота писать не будем, но... Подёргаем его за «ниточки», предоставленные нам официальным API. В этом задании ты потренируешься делать запросы через Postman к апишке и будешь сразу видеть результаты! А ещё ты увидишь, как просто реализовать свою библиотеку для работы с телеграм ботами.
+So, here's the task:
 
-Итак, задание.
+1. Create your own bot. It's completely free via BotFather. Don't forget to save your token!
+2. Learn the format in which requests are sent to the bot via api.telegram.org.
+3. Create a collection in Postman. Add subsequent requests to it.
+4. Get information about the bot (getMe method).
+5. Send a message to the bot (e.g. just /start).
+6. Look for information about yourself in the response to the getUpdates method! Save your user_id and chat_id.
+7. Now send a message to yourself on behalf of the bot (sendMessage).
+8. Well, well. Now you can send a picture to yourself on behalf of the bot. Practice attaching files to the request (in the body section via form-data).
+9. Now what if you attach a pdf document instead of a photo in the same sendPhoto method? The result will be surprising!
+10. Now try attaching a docx file instead of a pdf document. What will be the response?
+11. Finally, let's see what the bot can find out about you. For example, your photos. Try sending a request with the getUserProfilePhotos method.
 
-1) Создай своего бота. Это делается абсолютно бесплатно через BotFather. Не забудь сохранить токен!
+The result of the task will be a Postman collection (at least 7 requests). Note: don't forget the difference between GET and POST requests!
 
-2) Изучи, в каком формате посылаются запросы к боту через api.telegram.org.
+Useful links:
 
-3) Создай коллекцию в Postman. Последующие запросы добавляй в неё.
-
-4) Получи информацию о боте (метод getMe).
-
-5) Отправь сообщение боту (например, просто /start).
-
-6) Ищи информацию о себе в ответе на метод getUpdates! Сохрани свой user_id и chat_id.
-
-7) А теперь отправь себе сообщение от имени бота (sendMessage).
-
-8) Так-так. Теперь можно отправить фотографию себе от имени бота. Потренируйся прикреплять файлы к запросу (в разделе Body через form-data).
-
-9) А что, если теперь в том же методе sendPhoto вместо фотографии прикрепить pdf-документ? Результат точно удивит!
-
-10) Теперь вместо pdf-документа попробуй прикрепить docx-файл. Какой будет ответ?
-
-11) Напоследок посмотрим, что бот может узнать о тебе. Например, твои фотографии. Попробуй отправить запрос с методом getUserProfilePhotos.
-
-Результатом задания является коллекция Postman (минимум 7 запросов). Замечание: не забывай о разнице GET и POST запросов!
-
-Полезные ссылки:
-
-- [Telegram API](https://core.telegram.org/api)
-- [Как обращаться с BotFather](https://core.telegram.org/bots/features#botfather)
-- [Методы Telegram API](https://core.telegram.org/methods)
-
-💡 [Нажми сюда](https://forms.yandex.ru/cloud/6470524b69387212f7364a5e/), **чтобы поделиться с нами обратной связью на этот проект**. Это анонимно и поможет команде Продукта сделать твоё обучение лучше.
+- [Telegram API](https://core.telegram.org/api).
+- [BotFather Guide](https://core.telegram.org/bots/features#botfather).
+- [Telegram API Methods](https://core.telegram.org/methods).
