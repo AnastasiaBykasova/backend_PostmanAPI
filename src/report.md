@@ -10,8 +10,12 @@
 <br>*Получение статей про Linux*
 
 2. Получаем все новости по теме «Разработка» на русском языке за последние 15 дней.
-<br>![development](screenshots/part1/development.png)
+<br>![development](screenshots/part1/development1.png)
 <br>*Получение статей про разработку*
+
+- Сделаем автоматическое вычисление даты, которая была 15 дней назад, с посощью скрипта на JavaScript.
+<br>![development](screenshots/part1/development2.png)
+<br>*Вычисление даты*
 
 3. Получаем все новости по теме linux на русском языке на 3 странице, на каждой из которых по 10 новостей.
 <br>![linuxPages](screenshots/part1/linuxPages.png)
@@ -35,7 +39,7 @@
 # Part3. Телеграм-бот
 - Создаем своего бота.
 
-- Изучаем, в каком формате посылаются запросы к боту через api.telegram.org: `https://api.telegram.org/bot<токен>/метод`
+- Формат, в котором посылаются запросы к боту через api.telegram.org: `https://api.telegram.org/bot<токен>/метод`
 
 - Создаем коллекцию в Postman. Последующие запросы добавляем в неё. Токен сохраняем в variables.
 
@@ -49,11 +53,11 @@
 <br>![bot_getUpdates](screenshots/part3/bot_getUpdates.png)
 <br>*Получение обновлений в чате*
 
-- Берем `chat.id` из ответа на предыдущий запрос. Отправляем сообщение от имени бота (метод `sendMessage`).
+- Берем `chat.id` из ответа на предыдущий запрос. Отправляем себе сообщение от имени бота (метод `sendMessage`).
 <br>![bot_sendMessage](screenshots/part3/bot_sendMessage.png)
 <br>*Отправка сообщения*
 
-- Отправляем фотографию себе от имени бота (документация: `https://core.telegram.org/bots/api#sendphoto`) с помощью метода `sendPhoto`.
+- Отправляем фотографию себе от имени бота с помощью метода `sendPhoto` (документация: `https://core.telegram.org/bots/api#sendphoto`).
 <br>![bot_sendPhoto1](screenshots/part3/bot_sendPhoto1.png)
 <br>*Отправка фотографии*
 
@@ -77,7 +81,7 @@
 <br>![bot_sendPdf2](screenshots/part3/bot_sendPdf2.png)
 <br>*Отправка файла pdf с текстом*
 
-- При отправке файла Docx получаем ошибку `400 Bad Request`. Это связано с работой метода `sendPhoto`: документы не являются изображениями.
+- При отправке файла Docx получаем ошибку `400 Bad Request`. Это связано с работой метода `sendPhoto`: документы с расширением `docx`, `xls` и др. не являются изображениями.
 <br>![bot_sendDocx1](screenshots/part3/bot_sendDocx1.png)
 <br>*Отправка файла Docx*
 
@@ -85,7 +89,7 @@
 <br>![bot_sendDocx2](screenshots/part3/bot_sendDocx2.png)
 <br>*Отправка файла Docx*
 
-- Получаем информацию о фотографиях пользователя (документация: `https://core.telegram.org/bots/api#getuserprofilephotos`) с помощью метода `getUserProfilePhotos`.
+- Получаем информацию о фотографиях пользователя с помощью метода `getUserProfilePhotos` (документация: `https://core.telegram.org/bots/api#getuserprofilephotos`).
 <br>![bot_userInfo](screenshots/part3/bot_userInfo.png)
 <br>*Получение информации о фотографиях*
 
