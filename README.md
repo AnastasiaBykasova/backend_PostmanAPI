@@ -1,266 +1,102 @@
-# Accessing public HTTP APIs
+# Part1. News API
+- Переходим по ссылке и получаем API KEY.
 
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
+- Прикладываем API KEY в качестве bearer token в заголовке авторизации.
+<br>![apiKey](screenshots/part1/apiKey.png)
+<br>*Добавление API KEY*
 
-## Contents
+1. Получаем все новости по теме linux.
+<br>![linux](screenshots/part1/linux.png)
+<br>*Получение статей про Linux*
 
-[[_TOC_]]
+2. Получаем все новости по теме «Разработка» на русском языке за последние 15 дней.
+<br>![development](screenshots/part1/development1.png)
+<br>*Получение статей про разработку*
 
+- Сделаем автоматическое вычисление даты, которая была 15 дней назад, с помощью скрипта на JavaScript.
+<br>![development](screenshots/part1/development2.png)
+<br>*Вычисление даты*
 
-## Chapter I 
+3. Получаем все новости по теме linux на русском языке на 3 странице, на каждой из которых по 10 новостей.
+<br>![linuxPages](screenshots/part1/linuxPages.png)
+<br>*Разбивка на страницы*
 
-### Introduction
+4. Получаем все заголовки новостей для страны Россия по теме «наука» (science). Для этого устанавливаем `endpoint=top-headlines`.
+<br>![newsHeadlines](screenshots/part1/newsHeadlines.png)
+<br>*Заголовки новостей*
 
-In this project, you will create a series of request collections in Postman to retrieve data from public APIs with and without authorization. You'll learn the concepts of the HTTP protocol, its methods, and the data formats it works with. You'll also look at the developer tools in Google Chrome.
+# Part2. Инструменты разработчика
+- Открываем консоль разработчика, выбираем вкладку «network», указываем фильтр на Fetch/XHR и нажимаем на кнопку "Контакты".
 
+- Находим ссылку, начинающуюся с `https://hh.ru/vacancy/`, и открываем заголовки запроса.
+<br>![network](screenshots/part2/network.png)
+<br>*Запросы, которые посылаются на API hh.ru*
 
-## Chapter II
+- Переносим запрос и заголовки в Postman.
+<br>![contacts](screenshots/part2/contacts.png)
+<br>*Получение контактов*
 
-### What is API and what does it do?
+# Part3. Телеграм-бот
+- Создаем своего бота.
 
-The API (Application Programming Interface) is the contract that the program provides. "You can address me this way and that way, and I commit to do this and that."
+- Формат, в котором посылаются запросы к боту через api.telegram.org: `https://api.telegram.org/bot<токен>/метод`
 
-In other words, an API is a set of functions that a program provides, with each function describing the format of the input data and the format in which it is received. We'll talk about API specifications later.
+- Создаем коллекцию в Postman. Последующие запросы добавляем в неё. Токен сохраняем в variables.
 
-The API allows us to access data from a system developed by a company or developer.
+- Получаем информацию о боте (метод `getMe`).
+<br>![bot_getMe](screenshots/part3/bot_getMe.png)
+<br>*Получение информации о боте*
 
-There are two types of APIs:
-* Public — interfaces that are open to anyone, and anyone can access and use them;
-* Private — interfaces that are only accessible to internal developers or developers from other teams/companies based on granting access rights to the interface. 
- 
-### HTTP 1.1
+- Отправляем вручную сообщение боту. Это нужно, чтобы метод `getUpdates` вернул не пустой список, а последние обновления в чате, чтобы взять оттуда `chat.id`.
 
-Read the official specification of this version of the protocol [here](https://httpwg.org/specs/rfc9112.html).
+- Получаем информацию об обновлениях в чате с ботом (метод `getUpdates`).
+<br>![bot_getUpdates](screenshots/part3/bot_getUpdates.png)
+<br>*Получение обновлений в чате*
 
-HTTP (HyperText Transfer Protocol) is an application layer protocol implemented on top of TCP/IP (prior to version 3.0, drafts of which already work on top of UDP). HTTP defines how the client and server interact and how content is requested and transferred over the Internet.
+- Берем `chat.id` из ответа на предыдущий запрос. Отправляем себе сообщение от имени бота (метод `sendMessage`).
+<br>![bot_sendMessage](screenshots/part3/bot_sendMessage.png)
+<br>*Отправка сообщения*
 
-Currently, the HTTP protocol is (for the most part) what makes the World Wide Web work.
+- Отправляем фотографию себе от имени бота с помощью метода `sendPhoto` (документация: `https://core.telegram.org/bots/api#sendphoto`).
+<br>![bot_sendPhoto1](screenshots/part3/bot_sendPhoto1.png)
+<br>*Отправка фотографии*
 
-The API of many software products also implies the use of HTTP for data transfer. The data itself can be in any format, such as XML or JSON.
+- Отправляем фотографию с подписью.
+<br>![bot_sendPhoto2](screenshots/part3/bot_sendPhoto2.png)
+<br>*Отправка фотографии с подписью*
 
-Typically, data transfers using the HTTP protocol are made over TCP/IP connections. The server software typically uses TCP port 80 (and if the port is not explicitly specified, the client software typically uses port 80 for HTTP connections and 443 for HTTPS by default), but can use any other port.
+- Отправляем фотографию с подписью над изображением.
+<br>![bot_sendPhoto3](screenshots/part3/bot_sendPhoto3.png)
+<br>*Отправка фотографии с подписью*
 
-The initial request line for HTTP 1.1 is built according to the following scheme
+- Отправляем фотографию с защитой от скачивания и пересылки.
+<br>![bot_sendPhoto4](screenshots/part3/bot_sendPhoto4.png)
+<br>*Отправка фотографии*
 
-> URI method HTTP/Version
+- Отправляем файл pdf. От бота приходит его содержание в формате картинки.
+<br>![bot_sendPdf1](screenshots/part3/bot_sendPdf1.png)
+<br>*Отправка файла pdf*
 
-For example (such a start line might indicate that the main page of the site is being requested):
+- При отправке pdf, содержащего текст, также присылается картинка. 
+<br>![bot_sendPdf2](screenshots/part3/bot_sendPdf2.png)
+<br>*Отправка файла pdf с текстом*
 
-> GET / HTTP/1.1
+- При отправке файла Docx получаем ошибку `400 Bad Request`. Это связано с работой метода `sendPhoto`: документы с расширением `docx`, `xls` и др. не являются изображениями.
+<br>![bot_sendDocx1](screenshots/part3/bot_sendDocx1.png)
+<br>*Отправка файла Docx*
 
-**Method** is a sequence of any characters other than the control and delimiters, and defines the operation to be performed on the specified resource. The HTTP 1.1 specification does not limit the number of different methods that can be used, but in order to meet common standards and maintain compatibility with the widest possible range of software, it usually uses only some of the most standard methods, whose meaning is explicitly disclosed in the protocol specification.
+- Для отправки документа используем метод `sendDocument`.
+<br>![bot_sendDocx2](screenshots/part3/bot_sendDocx2.png)
+<br>*Отправка файла Docx*
 
-**URI** (Uniform Resource Identifier) is the path to the specific resource (e.g. a document) on which you want to perform an operation (e.g. when using the GET method, it means to get the resource). 
+- Получаем информацию о фотографиях пользователя с помощью метода `getUserProfilePhotos` (документация: `https://core.telegram.org/bots/api#getuserprofilephotos`).
+<br>![bot_userInfo](screenshots/part3/bot_userInfo.png)
+<br>*Получение информации о фотографиях*
 
-**Version** specifies which standard HTTP version is used for the request. It is given as two numbers separated by a dot (e.g. 1.1).
+- Из ответа на предыдущий запрос берем `file_id` и добавляем его в параметры нового запроса для получения `file_path` с помощью метода `getFile`.
+<br>![bot_filePath](screenshots/part3/bot_filePath.png)
+<br>*Получение `file_path`*
 
-For example:
-> GET / HTTP/1.1
-Host: example.com
-
-### The difference between the HTTP protocol versions
-
-### HTTP 1.1
-The first standardized version of the HTTP protocol, HTTP/1.1, was released in early 1997, a few months after the release of HTTP/1.0. At the time of its release, HTTP/1.1 supported 7 methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE. However, later, in 2010, the PATCH method was added to the standard, and then in 2014 the CONNECT method.
-
-HTTP/1.1 protocol turned out to be very successful and has served more than 15 years in its original version. During its use, only the HTTPS protocol extension appeared to provide encrypted data transfer between the browser and the server using the mechanisms of SSL/TLS.
-
-### HTTP/2
-HTTP/2 aims to use network resources more efficiently and reduce apparent latency. This has led to a new binary data format layer that is not backward compatible with HTTP/1.x servers and clients.
-
-The first draft of HTTP/2 was based on the SPDY specification, which was released in 2015. Important aspects were parallelization, prioritization, and stream control:
-
-* A stream is a bidirectional transfer of data within an established TCP connection.
-* The transfer takes place over a single TCP connection with any number of parallel streams.
-* Such a protocol is called a multiplexed protocol. Multiple parallel requests can use the same connection.
-* This allows for different prioritization of the transferred data.
-* It also allows the server to initiate data transfer independently.
-* Instead of textual data, the protocol uses a binary data format, which increases performance and security.
-* Request and response headers are automatically compressed.
-
-### HTTP/3
-
-With the advent of smartphones and many other portable devices with wireless connectivity, the overall amount of web traffic has increased dramatically. HTTP/2 running over TCP, with its head-of-line blocking problem, could cause delays in requests and responses. Because TCP provides strict packet sequencing, a problem with one slow packet could slow or even stop the entire stream. Also, HTTP/2 did not have a strict requirement for data encryption, and there were still security issues with intercepting request and response headers.
-
-HTTP/3 is designed to address these issues, and is now being tested with a published specification. The new protocol should address current speed, reliability, and security issues for a wide range of devices.
-
-Instead of TCP, HTTP/3 is based on a new protocol called QUIC, which has been in development at Google since 2012. QUIC works on top of UDP (User Datagram Protocol). QUIC itself provides multiplexing, and the loss of a packet will only affect the stream that has a connection to that packet, the other streams within the connection will continue to work. Request and response headers are compressed by QPACK instead of HPACK in HTTP/2. TLS 1.3 is used for encryption, which is effectively used in HTTPS. The latest versions of Chrome, Firefox, Edge, Opera and some mobile browsers already support HTTP/3, but it requires server support to work.
-
-According to statistics from w3techs.com, by July 2021, 45.7% of websites will be accessible via HTTP/2 and only 20% via HTTP/3.
-
-### How to read the response?
-
-The response will look like this:
-> HTTP/Version Status-Code Reason-Phrase
-
-**Version** of the protocol is set in the same way as in the request.
-
-**Status Code** is a three-digit number (the first of which indicates the status class) that defines the result of the request. For example, if the GET method is used and the server returns a resource with the specified identifier, such a status is indicated by code 200. If the server reports that such a resource does not exist - 404. If the server reports that it cannot provide access to the resource because the client does not have the necessary permissions, code 403 is used. The HTTP 1.1 specification defines 40 different HTTP codes, and also allows for protocol extensions and the use of additional status codes.
-
-The **Reason Phrase** is a textual (but not CR and LF characters) explanation of the response code, intended to make it easier for humans to read the response. The explanation may be ignored by client software and may differ from the default in some server software implementations.
-
-The response example:
-> HTTP/1.1 200 OK
-Server: nginx/1.2.1
-Date: Sat, 08 Mar 2014 22:53:46 GMT
-Content-Type: application/octet-stream
-Content-Length: 7
-Last-Modified: Sat, 08 Mar 2014 22:53:30 GMT
-Connection: keep-alive
-Accept-Ranges: bytes
-
-```HTML
-<html>
-<head>
-    <title>Example Domain</title>
-
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-    body {
-        background-color: #f0f0f2;
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        
-    }
-    div {
-        width: 600px;
-        margin: 5em auto;
-        padding: 2em;
-        background-color: #fdfdff;
-        border-radius: 0.5em;
-        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
-    }
-    a:link, a:visited {
-        color: #38488f;
-        text-decoration: none;
-    }
-    @media (max-width: 700px) {
-        div {
-            margin: 0 auto;
-            width: auto;
-        }
-    }
-    </style>    
-</head>
-
-<body>
-<div>
-    <h1>Example Domain</h1>
-    <p>This domain is for use in illustrative examples in documents. You may use this
-    domain in literature without prior coordination or asking for permission.</p>
-    <p><a href="https://www.iana.org/domains/example">More information...</a></p>
-</div>
-</body>
-</html>
-```
-
-You'll have to work out the headings by yourself :)
-
-### Basics of WEB Authorization
-
-HTTP Authentication — this protocol, described in the HTTP 1.0/1.1 standards, has been around for a very long time and is still actively used in the enterprise environment. When applied to websites, it works like this:
-
-- When an unauthorized client accesses a protected resource, the server sends an HTTP status of "401 Unauthorized" and adds the "WWW-Authenticate" header specifying the authentication scheme and parameters.
-- When the browser receives this response, it automatically displays the Username and Password dialog box. The user enters his or her account information.
-- For all subsequent requests to this website, the browser automatically adds an HTTP Authorization header that passes the user's credentials to the server for authentication.
-- The server authenticates the user based on the information in this header. The decision to grant access (authorization) is made separately based on the user's role, ACL, or other account information.
-
-Let's take a look at the most common authentication methods:
-* Token-based authentication;
-* JWT Token;
-* OAuth 2.0.
-  
-**Token-Based Authentication**
-
-Also known as Bearer Authentication.
-
-Token-Based Authentication uses a signed Bearer token that the client sends to the server in the Authorization HTTP header with the Bearer keyword or in the body of the request. For example:
-
->Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjI4Y
-
-Upon receiving a token, the server must verify its validity — that the user exists, that the time of use has not expired, and so on. Token-based authentication can be used as part of the OAuth 2.0 or OpenID Connect protocols, or the server can generate the token itself.
-
-Any authentication method must use a protocol that provides data encryption, HTTP headers, and URLs such as HTTPS to be used securely.
- 
-The **JSON Web Token (JWT)** consists of three parts: Header, Payload, and Signature. The first two blocks are in JSON format and additionally base64-encoded, the payload contains arbitrary name/value pairs, and the JWT standard defines several reserved names (iss, aud, exp, and others). The signature can be created using both symmetric and asymmetric encryption algorithms. There is also a separate standard for the format of an encrypted JWT token.
-
-An example of a signed JWT token (after decoding blocks 1 and 2):
->{ «alg»: «HS256», «typ»: «JWT» }.
->{ «iss»: «auth.myservice.com», «aud»: «myservice.com», «exp»: «1435937883», «userName»: «John Smith», «userRole»: «Admin» }.
->S9Zs/8/uEGGTVVtLggFTizCsMtwOJnRhjaQ2BMUQhcY
-
-**OAuth 2.0**
-
-OAuth 2.0 allows users to allow a specific site to retrieve their private information from social networks, but without giving the site their usernames/passwords. For example, if you sign up for a site via VK, you are simply giving the site permission to retrieve your name, email address, and other private information from VK.
-
-### Standard HTTP methods:
-- GET — clients use GET to access resources located on the server at the specified address.
-- POST — used to send data to the server.
-- PUT — used to completely create or update an existing resource.
-- PUT — used to update a portion of an existing resource.
-- DELETE — used to delete a resource.
-
-
-### Postman tool for API testing
-
-![postman](misc/images/postman.jpg)
-
-The **Postman** program is intended for API testing, sending POST and GET requests, etc. Unlike the similar utility curl, it has a graphical interface, making it easy to learn even for beginners. 
-
-You can download it from the [official website] (https://www.postman.com/). There are distributions for Windows, MacOS and Linux. On the latter platform, it is possible to install the utility directly from the Application Center. In any case, you start using it by registering for a free account.
-
-Testing the API is done by analyzing the accuracy of the output data depending on the input request. This is what Postman does: it compiles and sends it to the specified URLs, receives it back and stores it in the database. If you like, you can store typical requests in collections (for quick access) and create different environments for them.
-
-## Chapter III
-
-So let's meet the API. The result of each direction is the Postman collection. 
-
-### Part 1. News API
-
-First, you need to go to [here](https://newsapi.org/) and get **API KEY** (The Application Programming Interface key is a unique identifier used to authenticate the user, developer, or caller of a program).
-
-Don't forget that **API KEY** must be used as a bearer token in the authorization header!
-
-1. You need to get all the news about Linux.
-2. Get all news about "development" in Russian for the last 15 days.
-3. Get all the news about Linux in Russian on page 3, which should have 10 news on one page.
-4. Get all the headlines for "science" in Russian. 
-
-The result of this task is a postman collection.
-
-### Part 2. Developer Tools
-And now we're going to visit hh.ru to get the data from their API (not their website). To do this, you need to open the developer console, select the "Network" tab, specify a filter for Fetch/XHR, and perform random actions on the site. You will need to get the contacts of some vacancy (look for the "Show contacts" button and click!). As a result of clicking on various buttons and links you will see requests sent to the hh.ru API in the network section (the uri request does not necessarily have to contain the "api" tag). Make the same request in Postman and make sure that the data you receive is "somewhere" on the site. So we are looking at how web applications actually work and communicate. (And there is no open, publicly available specification for this API.)
-
-The resulting request must begin with https://hh.ru/vacancy/...
-
-### Part 3. Telegram bot
-Today's most popular business automation tool is a ~~good site~~ Telegram Bot! Building one is now so easy, especially with the official documentation.
-
-Writing your own bots is possible thanks to the open Telegram API. Just because it is open, there are dozens of libraries that implement available bot functions in their own way.
-
-We won't write our own bot, but... Let's pull some strings provided by the official API. In this assignment, you'll practice making requests to the API via Postman, and you'll see the results right away! And you'll also see how easy it is to implement your own library to work with Telegram bots.
-
-So, here's the task:
-
-1. Create your own bot. It's completely free via BotFather. Don't forget to save your token!
-2. Learn the format in which requests are sent to the bot via api.telegram.org.
-3. Create a collection in Postman. Add subsequent requests to it.
-4. Retrieve information about the bot (getMe method).
-5. Send a message to the bot (e.g. just /start).
-6. Look for information about yourself in the response to the getUpdates method! Save your user_id and chat_id.
-7. Now send a message to yourself on behalf of the bot (sendMessage).
-8. Well, well, well. Now you can send a picture to yourself on behalf of the bot. Practice attaching files to the request (in the body section via form-data).
-9. Now what if you attach a PDF-document instead of a photo in the same sendPhoto method? The result will be surprising!
-10. Now try attaching a DOCX-file instead of a PDF-document. What will be the response?
-11. Finally, let's see what the bot can find out about you. For example, your photos. Try sending a request with the getUserProfilePhotos method.
-
-The result of the task will be a Postman collection (at least 7 requests). Note: don't forget the difference between GET and POST requests!
-
-Useful links:
-
-- [Telegram API](https://core.telegram.org/api).
-- [BotFather Guide](https://core.telegram.org/bots/features#botfather).
-- [Telegram API Methods](https://core.telegram.org/methods).
+- Из ответа на предыдущий запрос берем `file_path` и составляем ссылку для получения изображения (`https://api.telegram.org/file/bot<токен>/photos/file_0.jpg`). Вставляем ссылку в браузер, картинка сохраняется.
+<br>![bot_getPicture](screenshots/part3/getPicture.png)
+<br>*Переход по ссылке*
